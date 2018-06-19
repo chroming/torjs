@@ -4,7 +4,7 @@ import sys
 from tornado.web import Application
 from tornado.ioloop import IOLoop
 
-from src.handles import BaseHandler
+from src.handles import HtmlHandler
 
 from quamash import QEventLoop
 from PyQt5.Qt import QApplication
@@ -16,7 +16,7 @@ asyncio_loop = QEventLoop(QT_app)
 set_event_loop(asyncio_loop)
 
 ROUTER = [
-    (r'/render.html', BaseHandler)
+    (r'/render.html', HtmlHandler)
 ]
 
 

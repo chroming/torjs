@@ -7,8 +7,8 @@ class BaseSender(object):
     def __init__(self, page_cls):
         self.page_cls = page_cls
 
-    def _send(self, url, future):
-        return self.page_cls(url, future).run()
+    def send(self, url, future, **kwargs):
+        return self.page_cls(url, future, **kwargs).run()
 
 
 class EngineSender(BaseSender):

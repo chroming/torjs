@@ -7,23 +7,26 @@ from tornado.concurrent import Future
 from src.sender import EngineSender
 
 
-class BaseHandler(web.RequestHandler):
+class HtmlHandler(web.RequestHandler):
+    sender = EngineSender()
+
+    async def _handle_req(self, url, method, **kwarg):
+        html = await self._send_to_engine(url, method)
+        self.write(html)
 
     async def get(self):
-        future = Future()
-        sender = EngineSender()
-        await sender.send(self.url, future)
-        html = await future
-        await self.write(html)
+        url = self.get_argument('url')
+        self._handle_req(url, 'get')
 
     async def post(self):
-        sender = EngineSender()
         body = self._json_body(self.request.body)
         url = body.get('url')
+        self._handle_req(url, 'post')
+
+    async def _send_to_engine(self, url, method, **kwargs):
         future = Future()
-        sender.send(url, future)
-        html = await future
-        self.write(html)
+        self.sender.send(url, future, method=method, **kwargs)
+        return await future
 
     def _json_body(self, json_body):
         return json.loads(json_body)
@@ -34,20 +37,10 @@ class BaseHandler(web.RequestHandler):
     def on_finish(self):
         print('%s is finished!' % self.request)
 
-    @property
-    def url(self):
-        return self.get_argument('url')
-
     def ___getattr__(self, name):
         """
         :param name:
         :return:
         """
         return self.get_argument(name)
-
-
-class HtmlHandler(BaseHandler):
-
-    def get(self):
-        super(HtmlHandler, self).get()
 
