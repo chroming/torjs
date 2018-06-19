@@ -20,9 +20,13 @@ ROUTER = [
 ]
 
 
-if __name__ == '__main__':
+def main():
     app = Application(ROUTER)
     app.settings['debug'] = True
     app.listen(8015)
     loop = IOLoop.current().start()
     loop.start()
+
+
+if __name__ == '__main__':
+    main()
