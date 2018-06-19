@@ -4,7 +4,7 @@ import sys
 from tornado.web import Application
 from tornado.ioloop import IOLoop
 
-from src.web.handles import BaseHandler
+from src.handles import BaseHandler
 
 from quamash import QEventLoop
 from PyQt5.Qt import QApplication

@@ -4,10 +4,7 @@ import json
 from tornado import web
 from tornado.concurrent import Future
 
-from src.brower.base import BasePage
-from src.web.sender import EngineSender
-
-ENGINE = BasePage
+from src.sender import EngineSender
 
 
 class BaseHandler(web.RequestHandler):
@@ -37,7 +34,6 @@ class BaseHandler(web.RequestHandler):
     def on_finish(self):
         print('%s is finished!' % self.request)
 
-
     @property
     def url(self):
         return self.get_argument('url')
@@ -48,4 +44,10 @@ class BaseHandler(web.RequestHandler):
         :return:
         """
         return self.get_argument(name)
+
+
+class HtmlHandler(BaseHandler):
+
+    def get(self):
+        super(HtmlHandler, self).get()
 
