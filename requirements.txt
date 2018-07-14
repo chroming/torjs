@@ -1,3 +1,4 @@
 tornado
 PyQt5
 quamash
+sanic
