@@ -11,7 +11,8 @@ class EnginePage(QWebEnginePage):
         self.future = future
         self.method = method
         self.kwargs = kwargs
-        self.loadFinished.connect(self._on_load_finished)
+        self.page = self
+        self.page.loadFinished.connect(self._on_load_finished)
 
     def run(self):
         self._prepare()
@@ -38,9 +39,10 @@ class EnginePage(QWebEnginePage):
             req.setHeader(self._set_headers(kwargs.get('headers')))
         if 'body' in kwargs:
             req.setPostData(self._set_postdata(kwargs.get('body')))
+        return req
 
     def _on_load_finished(self):
-        self.toHtml(self._send_html)
+        self.page.toHtml(self._send_html)
 
     def _send_html(self, html):
         """
@@ -48,7 +50,12 @@ class EnginePage(QWebEnginePage):
         :param html:
         :return:
         """
-        self.future.set_result(html)
+        try:
+            self.future.set_result(html)
+        except:
+            print('1')
+
+
 
 
 
