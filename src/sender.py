@@ -1,6 +1,6 @@
 
 
-from src.page import EnginePage
+from src.page import EnginePage, BasePage
 
 
 class BaseSender(object):
@@ -14,3 +14,8 @@ class BaseSender(object):
 class EngineSender(BaseSender):
     def __init__(self):
         BaseSender.__init__(self, EnginePage)
+
+
+class PageSender(BaseSender):
+    def __init__(self):
+        BaseSender.__init__(self, BasePage)
